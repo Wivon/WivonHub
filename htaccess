@@ -1,0 +1,26 @@
+# HTID:20114672: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:20114672:
+
+# errors
+ErrorDocument 404 /404.html
+
+# hide .html
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+# http headers
+AddDefaultCharset UTF-8 
+Header add Link "<rm-webh-mark.css>;rel=stylesheet;media=all"
+
+
+# force WWW
+Options +FollowSymLinks 
+RewriteEngine on 
+RewriteCond %{HTTP_HOST} ^wivon-hub.tk [NC] 
+RewriteRule ^(.*)$ http://www.wivon-hub.tk/$1 [L,R=301]
+
+RedirectPermanent /r/custominer https://wivon.github.io/CustoMiner-WEB/
+RedirectPermanent /r/screen_map_minecraft https://pornhub.com/
+RedirectPermanent /r/AQJPMAMS /projects/AQJPMAMS/index.html

@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Shrikhand&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: var(--text);
+    scroll-behavior: smooth;
+    font-display: swap;
+    -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+    background: var(--primary-lighter)
+}
+
+::-moz-selection {
+    background: var(--primary-lighter)
+}
+
+:root {
+    --background: #FFFFFF;
+    --text: #000000;
+    --text-tr: rgba(0, 0, 0, 0.75);
+    --primary-lighter: #2FEA78;
+    --primary-darker: #39D978;
+    --destructive-lighter: #B1C825;
+    --destructive-darker: #979225;
+    --btn-txt-size: 32px;
+}
+
+body {
+    background: var(--background);
+    transition: 0.3s ease-out;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body.dark {
+    --background: #000000;
+    --text: #FFFFFF;
+    --text-tr: rgba(255, 255, 255, 0.75);
+}
+
+button {
+    height: 60px;
+    width: 250px;
+    border-radius: 30px;
+    border: solid 4px rgba(57, 217, 121, 0.7);
+    background: rgba(54, 214, 118, 0.2);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: rgba(54, 214, 118, 0.1);
+    border: solid 3px rgba(57, 217, 121, 0.7);
+}
+
+main {
+    width: 100%;
+}
+
+section {
+    padding: 120px 180px;
+    width: 100%;
+}
+
+section h2 {
+    font-size: 128px;
+    letter-spacing: 5px;
+    position: relative;
+    transition: .3s;
+    width: max-content;
+}
+
+section h2::after {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    bottom: 40%;
+    right: 0;
+    content: '';
+    z-index: -1;
+    border-radius: 50%;
+    transform: scaleY(.8);
+    opacity: 0;
+    transition: .3s all;
+    background: var(--primary-lighter);
+}
+
+
+section h2:hover::after {
+    filter: blur(40px);
+    opacity: 1;
+}
+
+article {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: start;
+    margin-block: 140px;
+    width: 100%;
+}
+
+article .content {
+    margin-left: 122px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: start;
+    height: 491px;
+}
+
+article img {
+    height: 491px;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+article h3 {
+    font-size: 76px;
+    font-weight: 500;
+}
+
+article .content p {
+    font-size: 36px;
+    font-weight: 300;
+}
+
+article .content p span {
+    font-weight: 500;
+    font-style: italic;
+}
+
+article .links-container {
+    justify-content: left !important;
+    align-items: start !important;
+    width: 100%;
+}
+
+/* popup */
+.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.2s ease-out;
+    animation: popupDisplay 0.2s ease-out;
+}
+
+.popup h2 {
+    font-size: 62px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--text);
+}
+
+.popup span {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-size: 28px;
+    padding: 10px 20px;
+    text-align: center;
+    width: max-content;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 15px;
+    border: solid 2px var(--primary-lighter);
+    font-weight: 700;
+    color: #000000;
+}
+
+.popup p {
+    font-size: 22px;
+    width: 100%;
+    color: var(--text);
+    margin: 20px 0;
+}
+
+.popup button {
+    margin-right: auto;
+    margin-left: auto;
+    width: 200px;
+    margin-top: 20px;
+}
+
+button.mini {
+    width: 60px;
+}
+
+@media (max-width: 1480px) {
+    section {
+        padding-inline: 90px;
+    }
+}
+
+@media (max-width: 1340px) {
+    section {
+        padding-inline: 30px;
+    }
+}
+
+@media (max-width: 550px) {
+    section h2::after {
+        filter: blur(40px);
+        opacity: 1;
+    }
+}

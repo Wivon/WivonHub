@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wivon Hub | Download a file</title>
+
+    <meta property="og:title" content="Télécharger un fichier | Wivon Hub">
+
+    <!-- links -->
+    <script defer src="assets/goTo.js"></script>
+    <link rel="stylesheet" href="assets/normalizer.css">
+    <style>
+        * {
+            transition: .45s cubic-bezier(.07, .12, 0, 1.21);
+        }
+
+        body {
+            border-top: 8px solid var(--primary-darker);
+            border-bottom: 8px solid var(--primary-darker);
+            height: 100vh;
+            display: flex;
+            vertical-align: middle;
+            justify-content: center;
+            align-items: center;
+        }
+
+        section {
+            height: 455px;
+            width: 650px;
+            background: #191919;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 85px;
+            display: flex;
+            flex-direction: column;
+            padding: 45px 50px;
+            animation: sectionDisplay .2s cubic-bezier(.07, .12, 0, 1.21);
+        }
+
+        section.pin,
+        section.filename {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        section h3 {
+            font-weight: 500;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        section p {
+            margin-top: 65px;
+            font-weight: 400;
+            font-size: 26px;
+            text-align: center;
+        }
+
+        section input {
+            margin-top: 15px;
+            width: 576px;
+            height: 96px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 29px;
+            font-size: 32px;
+            padding-left: 15px;
+        }
+
+        section .actions {
+            margin-top: 65px;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        section .actions button:nth-child(1) {
+            margin-right: 15px;
+            font-weight: 700;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            width: 61.2px;
+        }
+
+        section .actions button:nth-child(2) {
+            pointer-events: none;
+            opacity: .5;
+        }
+
+        section.pin .actions button:nth-child(2),
+        section.filename .actions button:nth-child(2) {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        section.downloading {
+            background: var(--primary-darker-tr);
+            height: 160px;
+        }
+
+        section.downloading p,
+        section.downloading h3,
+        section.downloading input,
+        section.downloading .actions button:nth-child(1) {
+            transition: .6s;
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            margin-top: 0;
+            transform: scale(0) translateY(15%);
+            z-index: 1;
+        }
+
+        section.downloading .actions button:nth-child(2) {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.8);
+            outline: none;
+            z-index: 10;
+        }
+
+        .dlAgain {
+            position: absolute;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(.5);
+            opacity: 0;
+        }
+
+        section.downloading~.dlAgain {
+            top: 70%;
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 1;
+            opacity: 1;
+        }
+
+        @keyframes sectionDisplay {
+            from {
+                transform: scale(.8);
+                opacity: 0;
+            } to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h3>Téléchargement</h3>
+
+        <p>Entrez le nom/PIN du fichier.</p>
+        <input tabindex="1" type="text">
+
+        <div class="actions">
+            <button tabindex="3" onclick="goTo('/', false, true, true)">&#60;</button>
+            <button tabindex="2" onclick="download()">Download</button>
+        </div>
+    </section>
+
+    <button class="dlAgain">Download More</button>
+
+    <script>
+        const input = document.querySelector('section input')
+        const dlBTN = document.querySelectorAll('section button')[1]
+        const section = document.querySelector('section')
+        const DOWNLOAD_DIRECTORY = "https://wivon-hub.tk/dl/"
+        const URL_PARAMS = new URLSearchParams(window.location.search);
+
+        input.onkeyup = () => {
+            checkInput()
+        }
+
+        function checkInput() {
+            const value = input.value
+
+            section.classList.toggle('filename', /.*[.][a-z|1-9]*/.test(value))
+
+            if (/^[1-9]{4}$/.test(value)) {
+                section.classList.add('pin')
+                dlBTN.focus()
+            } else {
+                section.classList.remove('pin')
+            }
+
+            dlBTN.classList.toggle('active', /^[1-9]{4}$/.test(value) || /.*[.][a-z|1-9]*/.test(value))
+        }
+
+        function download() {
+            section.classList.add('downloading')
+            dlBTN.textContent = "downloading..."
+            dlBTN.style.pointerEvents = 'none'
+
+            setTimeout(() => {
+                // start download
+                if (section.classList.contains('filename')) {
+                    goTo(DOWNLOAD_DIRECTORY + input.value)
+                } else if (section.classList.contains('pin')) {
+                    alert('not available')
+                }
+            }, 500)
+        }
+
+        function autoInput() {
+            if (URL_PARAMS.get('dl') == null) return
+            input.value = URL_PARAMS.get('dl')
+            checkInput()
+        }
+
+        checkInput()
+
+        autoInput()
+        input.focus()
+        // FILENAME: .*[.][a-z|1-9]*
+        // PIN: ^[1-9]{4}$
+    </script>
+</body>
+
+</html>
